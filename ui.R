@@ -20,10 +20,10 @@ shinyUI(fluidPage(
     ),
   
     mainPanel(
-      tabsetPanel(
-              tabPanel("Price", plotOutput("priceplot")),
-              tabPanel("kWh", plotOutput("genplot"))
-      )
+              h4("Price"),
+              plotOutput("priceplot"),
+              h4("Generation"),
+              plotOutput("genplot")
     )
   )
 ))

@@ -14,7 +14,8 @@ year_ago <- Sys.Date() - years(1)
 read_write <- function(url, file_name) {
   csv_data_url <- paste0(url,  file_name)
   print(file_name)
-  read.csv(csv_data_url, stringsAsFactors = FALSE) %>% write.csv(paste0("downloads/",file_name), row.names = FALSE, quote = FALSE)
+  read.csv(csv_data_url, stringsAsFactors = FALSE) %>%
+    write.csv(paste0("downloads/",file_name), row.names = FALSE, quote = FALSE)
 }
 
 for(ix in 0:11) {

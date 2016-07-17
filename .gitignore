@@ -38,3 +38,6 @@ data/downloads/*.csv
 
 # Shiny
 rsconnect
+
+# vi
+*.swp
