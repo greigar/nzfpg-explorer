@@ -18,7 +18,7 @@ prices <- function(node, trading_period_min, trading_period_max, price_min, pric
                   Trading_date   <= as.POSIXct(trading_date_max)) %>%
     ggplot(aes(x=Trading_date, y=Trading_period)) + 
       geom_tile(aes(fill=Price), colour="grey") + 
-      scale_fill_gradient(low="grey", high="red")
+      scale_fill_gradient(low="white", high="red")
 }
 
 kwhs <- function(node, trading_period_min, trading_period_max, trading_date_min, trading_date_max) {

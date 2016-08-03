@@ -1,6 +1,7 @@
 library(reshape2)  # for melt-ing
 library(dplyr)     # for changing data frames and aggregation
 library(feather)   # for writing out results
+library(lubridate) # for date arithmetic in the config file
 
 setwd("shiny-apps/nzfpg-explorer")
 
@@ -60,4 +61,17 @@ generation_aggr <- generation %>%
 write_feather(as.data.frame(union_nodes, stringsAsFactors = FALSE), "data/union_nodes.feather")
 write_feather(finalprices,     "data/finalprices.feather")
 write_feather(generation_aggr, "data/generation_aggr.feather")
+
+
+# Create the config file to drive the min/max parameters
+nzfpg_config <- list("min_price"  = min(finalprices$Price),
+                     "max_price"  = max(finalprices$Price),
+                     "min_date"   = min(finalprices$Trading_date),
+                     "max_date"   = max(finalprices$Trading_date),
+                     "from_date"  = max_date - months(1),
+                     "to_date"    = max_date,
+                     "from_price" = min_price,
+                     "to_price"   = quantile(finalprices$Price)[[3]])
+
+saveRDS(nzfpg_config, file = "data/nzfpg_config.rds")
 
