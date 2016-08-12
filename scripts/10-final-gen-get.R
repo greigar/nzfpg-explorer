@@ -1,21 +1,23 @@
 library(lubridate) # for date arithmetic
 library(magrittr)  # for piping %>%
+library(readr)     # for reading csv
 
-# setwd("shiny-apps/nzfpg-explorer")
-dir.create("data/downloads", recursive=TRUE, showWarnings=FALSE)
-setwd("data")
+old_dir  <- getwd()
+data_dir <- "~/data/electricity/downloads"
+dir.create(data_dir, recursive=TRUE, showWarnings=FALSE)
+setwd(data_dir)
 
-base_url <- "http://www.emi.ea.govt.nz/Datasets/download?directory=%2FDatasets%2FWholesale%2F"
-url_fp   <- paste0(base_url, "Final_pricing%2FFinal_prices%2F")
-url_gen  <- paste0(base_url, "Generation%2FGeneration_MD%2F")
+base_url <- "http://www.emi.ea.govt.nz/Datasets/Wholesale/"
+url_fp   <- paste0(base_url, "Final_pricing/Final_prices/")
+url_gen  <- paste0(base_url, "Generation/Generation_MD/")
 
-year_ago <- Sys.Date() - years(1)
+year_ago <- Sys.Date() - years(2) + months(5)
 
 read_write <- function(url, file_name) {
   csv_data_url <- paste0(url,  file_name)
-  print(file_name)
+  print(csv_data_url)
   read.csv(csv_data_url, stringsAsFactors = FALSE) %>%
-    write.csv(paste0("downloads/",file_name), row.names = FALSE, quote = FALSE)
+    write.csv(file_name, row.names = FALSE, quote = FALSE)
 }
 
 for(ix in 0:11) {
@@ -28,4 +30,4 @@ for(ix in 0:11) {
   read_write(url_gen, file_name_gen)
 }
 
-# setwd("../../..")
+setwd(old_dir)
