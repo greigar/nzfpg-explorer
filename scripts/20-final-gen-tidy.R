@@ -1,7 +1,7 @@
-library(reshape2)  # for melt-ing
 library(dplyr)     # for changing data frames and aggregation
-library(feather)   # for writing out results
 library(readr)     # for csv reading
+library(tidyr)     # for gathering
+library(feather)   # for writing out results
 library(lubridate) # for date arithmetic in the config file
 
 # setwd("shiny-apps/nzfpg-explorer")
@@ -37,7 +37,7 @@ read_files <- function(filetype) {
                      Price          = col_double())
   }
 
-  thepath  <- "data/downloads"
+  thepath  <- "~/data/electricity/downloads"
 
   # Nice function to load up multiple files into one data frame
   # From http://www.r-bloggers.com/merging-multiple-data-files-into-one-data-frame/
@@ -62,11 +62,11 @@ finalprices <- read_csv_finalprices()
 
 # Transform into tidy data
 generation <- generation %>%
-  melt(id=1:7, na.rm = TRUE) %>%
+  gather(Trading_period, kwh, TP1:TP50) %>%
   transmute(Trading_date   = Trading_date, 
-            Trading_period = as.integer(substr(variable, 3, 4) ), 
+            Trading_period = as.integer(sub("TP", "", Trading_period)), 
             Node           = POC_Code, 
-            kwh            = value, 
+            kwh            = kwh, 
             Fuel_Code      = Fuel_Code)
 
 # Aggregate Generation based on date, period and node only

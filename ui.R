@@ -22,10 +22,11 @@ shinyUI(fluidPage(
     ),
   
     mainPanel(
-              h4("Price"),
-              plotOutput("priceplot"),
-              h4("Generation"),
-              plotOutput("genplot")
+      tabsetPanel(
+        tabPanel("Price",      plotOutput("priceplot")),
+        tabPanel("PriceHex",   plotOutput("pricehex")),
+        tabPanel("Generation", plotOutput("genplot"))
+      )
     )
   )
 ))
